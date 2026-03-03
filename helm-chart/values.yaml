@@ -13,7 +13,7 @@ monitor:
     tag: "1.0.0"
     pullPolicy: IfNotPresent
   url: "https://www.google.com"
-  interval: 10
+  interval: 20
 
 service:
   type: ClusterIP
