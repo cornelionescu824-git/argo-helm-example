@@ -8,7 +8,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/dascalu_adobe/argo-helm-example.git
+    repoURL: https://github.com/cornelionescu824-git/argo-helm-example.git
     targetRevision: HEAD
     path: helm-chart
     helm:
