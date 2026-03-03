@@ -31,6 +31,9 @@ helm upgrade simple-api "$HELM_CHART" \
     --set image.repository=simple-api \
     --set image.tag=1.0.0 \
     --set image.pullPolicy=Never \
+    --set monitor.image.repository=url-monitor \
+    --set monitor.image.tag=1.0.0 \
+    --set monitor.image.pullPolicy=Never \
     --wait \
     --timeout 120s
 

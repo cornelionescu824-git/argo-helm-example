@@ -17,6 +17,14 @@ spec:
       parameters:
         - name: image.tag
           value: "1.0.0"
+        - name: image.pullPolicy
+          value: "Never"
+        - name: monitor.image.repository
+          value: "url-monitor"
+        - name: monitor.image.tag
+          value: "1.0.0"
+        - name: monitor.image.pullPolicy
+          value: "Never"
   destination:
     server: https://kubernetes.default.svc
     namespace: simple-api

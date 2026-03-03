@@ -43,6 +43,23 @@ spec:
               port: http
             initialDelaySeconds: 30
             periodSeconds: 10
+        {{- if .Values.monitor.enabled }}
+        - name: url-monitor
+          image: "{{ .Values.monitor.image.repository }}:{{ .Values.monitor.image.tag }}"
+          imagePullPolicy: {{ .Values.monitor.image.pullPolicy }}
+          env:
+            - name: MONITOR_URL
+              value: {{ .Values.monitor.url | quote }}
+            - name: MONITOR_INTERVAL
+              value: {{ .Values.monitor.interval | quote }}
+          resources:
+            limits:
+              cpu: 50m
+              memory: 64Mi
+            requests:
+              cpu: 10m
+              memory: 32Mi
+        {{- end }}
     {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

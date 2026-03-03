@@ -1,9 +1,19 @@
-replicaCount: 1
+replicaCount: 2
 
 image:
   repository: simple-api
   tag: "1.0.0"
   pullPolicy: IfNotPresent
+
+# Sidecar: monitors a configurable URL (curl in a loop)
+monitor:
+  enabled: true
+  image:
+    repository: url-monitor
+    tag: "1.0.0"
+    pullPolicy: IfNotPresent
+  url: "https://www.google.com"
+  interval: 10
 
 service:
   type: ClusterIP

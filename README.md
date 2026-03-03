@@ -4,6 +4,8 @@ A minimal Spring Boot API deployed with Helm and Argo CD, following patterns fro
 
 **See [INTERFACES.md](./INTERFACES.md)** for where Kubernetes (kubectl) and Argo CD fit, and how to use both interfaces.
 
+**See [STEPS.md](./STEPS.md)** for a step-by-step guide to the enhanced example (2 pods, 2 containers per pod: app + URL monitor sidecar).
+
 **Important: This example uses an isolated kubeconfig. Your existing kubectl configuration for Adobe/orchestration clusters is never modified.**
 
 ---
@@ -77,6 +79,9 @@ argo-helm-example/
 │   ├── src/main/java/.../SimpleController.java
 │   ├── Dockerfile
 │   └── pom.xml
+├── monitor/                    # URL monitor sidecar (curl loop)
+│   ├── Dockerfile
+│   └── monitor.sh
 ├── helm-chart/                 # Helm chart (POS-style)
 │   ├── Chart.yaml
 │   ├── values.yaml
