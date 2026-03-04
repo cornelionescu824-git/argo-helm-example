@@ -304,6 +304,26 @@ values.yaml (monitor.url, monitor.interval)
 
 ---
 
+## Step 8: Stage and Production Environments
+
+See **[ENVIRONMENTS.md](./ENVIRONMENTS.md)** for full details.
+
+**Apply Argo CD Applications for stage and prod:**
+```bash
+kubectl apply -f argo/application-stage.yaml
+kubectl apply -f argo/application-prod.yaml
+```
+
+**Or deploy via Helm:**
+```bash
+./scripts/deploy-helm-stage.sh
+./scripts/deploy-helm-prod.sh
+```
+
+**What's happening:** Same Helm chart, different value files. Stage uses `values-stage.yaml` (1 replica, `/stage/config` ZK node, stage.simple-api.local). Prod uses `values-prod.yaml` (2 replicas, `/prod/config` ZK node, prod.simple-api.local). Each environment gets its own namespace and Zookeeper instance.
+
+---
+
 ## Troubleshooting
 
 **ImagePullBackOff for url-monitor**

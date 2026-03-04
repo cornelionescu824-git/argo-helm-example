@@ -6,6 +6,8 @@ A minimal Spring Boot API deployed with Helm and Argo CD, following patterns fro
 
 **See [STEPS.md](./STEPS.md)** for a step-by-step guide to the enhanced example (2 pods, 2 containers per pod: app + URL monitor sidecar).
 
+**See [ENVIRONMENTS.md](./ENVIRONMENTS.md)** for stage and production deployments with different Helm values, Zookeeper nodes, and endpoints.
+
 **Important: This example uses an isolated kubeconfig. Your existing kubectl configuration for Adobe/orchestration clusters is never modified.**
 
 ---
@@ -75,21 +77,26 @@ kubectl get pods -n 2  # Your orchestration namespace
 
 ```
 argo-helm-example/
-├── simple-api/                 # Spring Boot application
-│   ├── src/main/java/.../SimpleController.java
+├── simple-api/                 # Spring Boot application (reads Zookeeper config)
+│   ├── src/main/java/.../
 │   ├── Dockerfile
 │   └── pom.xml
 ├── monitor/                    # URL monitor sidecar (curl loop)
-│   ├── Dockerfile
-│   └── monitor.sh
-├── helm-chart/                 # Helm chart (POS-style)
+├── helm-chart/                 # Helm chart
 │   ├── Chart.yaml
-│   ├── values.yaml
+│   ├── values.yaml             # Base
+│   ├── values-stage.yaml       # Stage overrides
+│   ├── values-prod.yaml        # Prod overrides
 │   └── templates/
 │       ├── deployment.yaml
-│       └── service.yaml
-├── argo/                       # Argo CD Application manifest
-│   └── application.yaml
+│       ├── service.yaml
+│       ├── ingress.yaml
+│       ├── zookeeper-deployment.yaml
+│       └── zookeeper-service.yaml
+├── argo/                       # Argo CD Applications
+│   ├── application.yaml        # Local/single env
+│   ├── application-stage.yaml
+│   └── application-prod.yaml
 ├── scripts/
 │   ├── setup-cluster.sh        # Create kind cluster
 │   ├── build-and-push.sh       # Maven + Docker + kind load
@@ -161,6 +168,7 @@ Deletes the kind cluster. Your `~/.kube/config` remains unchanged.
 | Endpoint | Description |
 |----------|-------------|
 | GET /hello | Returns message and environment |
+| GET /config/zk | Returns value from Zookeeper node (env-specific path) |
 | GET /health | Health check (used by K8s probes) |
 
 ---

@@ -35,6 +35,14 @@ spec:
               value: {{ .Values.app.message | quote }}
             - name: APP_ENVIRONMENT
               value: {{ .Values.app.environment | quote }}
+            {{- if .Values.zookeeper.enabled }}
+            - name: ZOOKEEPER_CONNECT
+              value: "zookeeper:2181"
+            - name: ZOOKEEPER_NODE
+              value: {{ .Values.zookeeper.node | quote }}
+            - name: ZOOKEEPER_DEFAULT_VALUE
+              value: {{ .Values.zookeeper.defaultValue | quote }}
+            {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           livenessProbe:

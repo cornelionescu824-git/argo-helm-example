@@ -23,6 +23,11 @@ echo "Building Docker image $MONITOR_IMAGE..."
 docker build -t "$MONITOR_IMAGE" .
 
 echo ""
+echo "=== Pulling and loading Zookeeper image ==="
+docker pull zookeeper:3.9
+kind load docker-image zookeeper:3.9 --name "$CLUSTER_NAME"
+
+echo ""
 echo "=== Loading images into kind cluster ==="
 export KUBECONFIG="$KUBECONFIG_FILE"
 kind load docker-image "$API_IMAGE" --name "$CLUSTER_NAME"
@@ -30,4 +35,4 @@ kind load docker-image "$MONITOR_IMAGE" --name "$CLUSTER_NAME"
 
 echo ""
 echo "=== Build complete ==="
-echo "Images loaded: $API_IMAGE, $MONITOR_IMAGE"
+echo "Images loaded: $API_IMAGE, $MONITOR_IMAGE, zookeeper:3.9"

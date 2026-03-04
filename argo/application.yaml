@@ -25,6 +25,12 @@ spec:
           value: "1.0.0"
         - name: monitor.image.pullPolicy
           value: "Never"
+        - name: replicaCount
+          value: "1"
+        - name: zookeeper.enabled
+          value: "true"
+        - name: zookeeper.image.pullPolicy
+          value: "Never"
   destination:
     server: https://kubernetes.default.svc
     namespace: simple-api

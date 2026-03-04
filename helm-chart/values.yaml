@@ -1,4 +1,14 @@
-replicaCount: 2
+replicaCount: 1
+
+# Zookeeper - separate pod
+zookeeper:
+  enabled: true
+  image:
+    repository: zookeeper
+    tag: "3.9"
+    pullPolicy: IfNotPresent
+  node: "/app/config"
+  defaultValue: "default-from-zk"
 
 image:
   repository: simple-api
@@ -13,7 +23,7 @@ monitor:
     tag: "1.0.0"
     pullPolicy: IfNotPresent
   url: "https://www.google.com"
-  interval: 20
+  interval: 10
 
 service:
   type: ClusterIP
@@ -22,6 +32,12 @@ service:
 app:
   message: "Hello from Simple API (Helm)"
   environment: "local"
+
+# Ingress - host-based routing per environment
+ingress:
+  enabled: false
+  host: "simple-api.local"
+  className: "nginx"
 
 resources:
   limits:

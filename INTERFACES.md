@@ -167,6 +167,7 @@ argocd app sync simple-api
 |-----------|---------|-------------|
 | **kubectl** | `export KUBECONFIG=.../argo-helm-example/.kube/config` | `kubectl get pods -A` |
 | **Argo CD UI** | `kubectl port-forward svc/argocd-server 8443:443 -n argocd` | https://localhost:8443 |
-| **simple-api** | `kubectl port-forward svc/simple-api 8080:8080 -n simple-api` | `curl http://localhost:8080/hello` |
+| **simple-api (stage)** | `kubectl port-forward svc/simple-api 8080:8080 -n simple-api-stage` | `curl http://localhost:8080/hello` |
+| **simple-api (prod)** | `kubectl port-forward svc/simple-api 8081:8080 -n simple-api-prod` | `curl http://localhost:8081/hello` |
 
-Run each `port-forward` in its own terminal (or in the background) to keep them active.
+See **[ENVIRONMENTS.md](./ENVIRONMENTS.md)** for stage vs prod endpoints and Zookeeper nodes.
