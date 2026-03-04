@@ -30,7 +30,7 @@ spec:
         - name: zookeeper.enabled
           value: "true"
         - name: zookeeper.image.pullPolicy
-          value: "IfNotPresent"
+          value: "Never"
   destination:
     server: https://kubernetes.default.svc
     namespace: simple-api
