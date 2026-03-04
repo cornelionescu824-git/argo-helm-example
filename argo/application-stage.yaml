@@ -1,0 +1,41 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: simple-api-stage
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/cornelionescu824-git/argo-helm-example.git
+    targetRevision: HEAD
+    path: helm-chart
+    helm:
+      valueFiles:
+        - values.yaml
+        - values-stage.yaml
+      parameters:
+        - name: image.tag
+          value: "1.0.0"
+        - name: image.pullPolicy
+          value: "Never"
+        - name: monitor.image.repository
+          value: "url-monitor"
+        - name: monitor.image.tag
+          value: "1.0.0"
+        - name: monitor.image.pullPolicy
+          value: "Never"
+        - name: zookeeper.enabled
+          value: "true"
+        - name: zookeeper.image.pullPolicy
+          value: "Never"
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: simple-api-stage
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

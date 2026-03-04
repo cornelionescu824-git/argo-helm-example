@@ -1,0 +1,43 @@
+{{- if .Values.zookeeper.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zookeeper
+  labels:
+    app: zookeeper
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zookeeper
+  template:
+    metadata:
+      labels:
+        app: zookeeper
+    spec:
+      containers:
+        - name: zookeeper
+          image: "{{ .Values.zookeeper.image.repository }}:{{ .Values.zookeeper.image.tag }}"
+          imagePullPolicy: {{ .Values.zookeeper.image.pullPolicy }}
+          ports:
+            - containerPort: 2181
+              name: client
+          env:
+            - name: ZOO_MY_ID
+              value: "1"
+            - name: ZOO_SERVERS
+              value: "server.1=localhost:2888:3888;2181"
+          resources:
+            limits:
+              cpu: 200m
+              memory: 256Mi
+            requests:
+              cpu: 50m
+              memory: 128Mi
+          livenessProbe:
+            tcpSocket:
+              port: 2181
+            initialDelaySeconds: 30
+            periodSeconds: 10
+{{- end }}

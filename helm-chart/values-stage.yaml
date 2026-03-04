@@ -1,0 +1,31 @@
+# Stage environment overrides
+# Use with: helm upgrade simple-api ./helm-chart -f values.yaml -f values-stage.yaml -n simple-api-stage
+
+replicaCount: 1
+
+zookeeper:
+  enabled: true
+  node: "/stage/config"
+  defaultValue: "stage-default-value"
+
+app:
+  message: "Hello from Stage"
+  environment: "stage"
+
+monitor:
+  enabled: true
+  url: "https://stage.example.com/health"
+  interval: 15
+
+ingress:
+  enabled: true
+  host: "stage.simple-api.local"
+  className: "nginx"
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 256Mi
